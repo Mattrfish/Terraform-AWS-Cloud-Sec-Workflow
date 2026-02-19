@@ -24,7 +24,7 @@ jobs:
           aws-region: "eu-west-2"
 
       - name: Sync Files to S3
-        run: aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }} --exclude ".git/*" --exclude ".github/*" --exclude "*.tf" --exclude "*.tfstate*" --exclude "*.md" --exclude "*.env"
+        run: aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }} --exclude ".git/*" --exclude ".github/*" --exclude "*.tf" --exclude "*.tfstate*" --exclude "*.md" --exclude "*.env" --exclude "*.gitignore" --exclude "*.terraform.lock.hcl" --exclude "*images/"
 
 
 
