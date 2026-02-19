@@ -1,0 +1,30 @@
+name: "Deploy Website"
+on: 
+  push: 
+    branches: 
+      - main
+
+permissions: 
+  id-token: write
+  contents: read
+
+jobs:
+  first_job:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with: 
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: "eu-west-2"
+
+      - name: Sync Files to S3
+        run: aws s3 sync . s3://${{ secrets.S3_BUCKET_NAME }} --exclude ".git/*" --exclude ".github/*" --exclude "*.tf" --exclude "*.tfstate*" --exclude "*.md" --exclude "*.env"
+
+
+
